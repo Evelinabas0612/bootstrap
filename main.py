@@ -15,6 +15,16 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes(html_content, "utf-8"))
 
 
+
+    def do_POST(self):
+        self.send_response(200)
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+        self.wfile.write(bytes('', "utf-8"))
+        data = int(self.headers.get('Content-Length', "application/json"))
+        client_data = self.rfile.read(data)
+        print(client_data.decode())
+
 if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
